@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ThreadDetailPage } from '@/pages/ThreadDetailPage';
 
@@ -76,7 +76,7 @@ describe('ThreadDetailPage integration', () => {
     };
   });
 
-  test('renders detail, comments, and guest prompt from store', () => {
+  it('renders detail, comments, and guest prompt from store', () => {
     renderPage();
 
     expect(screen.getByRole('heading', { name: 'Detail React' })).toBeInTheDocument();
@@ -84,7 +84,7 @@ describe('ThreadDetailPage integration', () => {
     expect(screen.getByText('Masuk dulu untuk menulis komentar.')).toBeInTheDocument();
   });
 
-  test('renders not found state', () => {
+  it('renders not found state', () => {
     selectorState.detailState = {
       commentError: null,
       commentStatus: 'idle',

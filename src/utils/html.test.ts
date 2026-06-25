@@ -1,9 +1,9 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { sanitizeHtml } from '@/utils/html';
 
 describe('sanitizeHtml', () => {
-  test('removes blocked tags and dangerous attributes', () => {
+  it('removes blocked tags and dangerous attributes', () => {
     const sanitized = sanitizeHtml(
       '<p onclick="alert(1)">Halo</p><script>alert(1)</script><a href="javascript:alert(1)">tautan</a>',
     );

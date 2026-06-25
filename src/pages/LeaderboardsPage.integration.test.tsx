@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { LeaderboardsPage } from '@/pages/LeaderboardsPage';
 
@@ -66,7 +66,7 @@ describe('LeaderboardsPage integration', () => {
     ];
   });
 
-  test('renders leaderboard rows from store', () => {
+  it('renders leaderboard rows from store', () => {
     render(<LeaderboardsPage />);
 
     expect(screen.getByRole('heading', { name: 'Kontributor Terbaik' })).toBeInTheDocument();
@@ -75,7 +75,7 @@ describe('LeaderboardsPage integration', () => {
     expect(screen.getByText('Budi')).toBeInTheDocument();
   });
 
-  test('renders empty state from store', () => {
+  it('renders empty state from store', () => {
     leaderboardsState.items = [];
 
     render(<LeaderboardsPage />);

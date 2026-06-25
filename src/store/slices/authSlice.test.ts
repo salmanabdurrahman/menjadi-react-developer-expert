@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { authReducer, fetchAuthedUser, login, logout, register } from '@/store/slices/authSlice';
 
@@ -28,7 +28,7 @@ const authedUser = {
 };
 
 describe('authSlice', () => {
-  test('logout clears auth state and stored token', () => {
+  it('logout clears auth state and stored token', () => {
     const localStorageMock = createLocalStorageMock('token-123');
     vi.stubGlobal('localStorage', localStorageMock);
 
@@ -51,7 +51,7 @@ describe('authSlice', () => {
     expect(localStorageMock.removeItem).toHaveBeenCalledWith('forum_access_token');
   });
 
-  test('register fulfilled clears loading state without logging user in', () => {
+  it('register fulfilled clears loading state without logging user in', () => {
     const state = authReducer(
       {
         authedUser: null,
@@ -74,7 +74,7 @@ describe('authSlice', () => {
     });
   });
 
-  test('login fulfilled stores token and authenticated user in state', () => {
+  it('login fulfilled stores token and authenticated user in state', () => {
     const state = authReducer(
       {
         authedUser: null,
@@ -96,7 +96,7 @@ describe('authSlice', () => {
     });
   });
 
-  test('fetchAuthedUser rejected clears invalid session state', () => {
+  it('fetchAuthedUser rejected clears invalid session state', () => {
     const state = authReducer(
       {
         authedUser: null,

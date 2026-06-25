@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { CommentList } from '@/components/comments/CommentList';
 
@@ -10,13 +10,13 @@ vi.mock('@/components/comments/CommentCard', () => ({
 }));
 
 describe('CommentList', () => {
-  test('shows empty state when no comments', () => {
+  it('shows empty state when no comments', () => {
     render(<CommentList comments={[]} threadId="thread-1" />);
 
     expect(screen.getByText('Belum ada komentar. Jadilah yang pertama.')).toBeInTheDocument();
   });
 
-  test('renders comment cards', () => {
+  it('renders comment cards', () => {
     render(
       <CommentList
         comments={[

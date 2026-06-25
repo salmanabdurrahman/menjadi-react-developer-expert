@@ -1,9 +1,9 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { toIndonesianMessage } from '@/utils/messages';
 
 describe('toIndonesianMessage', () => {
-  test.each([
+  it.each([
     ['ok', 'Berhasil.'],
     ['User created', 'Pengguna berhasil dibuat.'],
     ['User logged in', 'Pengguna berhasil masuk.'],
@@ -28,19 +28,19 @@ describe('toIndonesianMessage', () => {
     expect(toIndonesianMessage(message, 'Fallback.')).toBe(expected);
   });
 
-  test('keeps Indonesian message from API', () => {
+  it('keeps Indonesian message from API', () => {
     expect(toIndonesianMessage('Thread tidak ditemukan', 'Fallback.')).toBe(
       'Thread tidak ditemukan',
     );
   });
 
-  test('keeps unknown English message from leaking to UI', () => {
+  it('keeps unknown English message from leaking to UI', () => {
     expect(toIndonesianMessage('Something went wrong', 'Permintaan gagal diproses.')).toBe(
       'Permintaan gagal diproses.',
     );
   });
 
-  test('uses fallback when message is empty', () => {
+  it('uses fallback when message is empty', () => {
     expect(toIndonesianMessage('   ', 'Fallback.')).toBe('Fallback.');
   });
 });

@@ -1,9 +1,9 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { fetchLeaderboards, leaderboardsReducer } from '@/store/slices/leaderboardsSlice';
 
 describe('leaderboardsSlice', () => {
-  test('fetchLeaderboards pending sets loading state', () => {
+  it('fetchLeaderboards pending sets loading state', () => {
     const state = leaderboardsReducer(
       {
         error: 'lama',
@@ -20,7 +20,7 @@ describe('leaderboardsSlice', () => {
     });
   });
 
-  test('fetchLeaderboards fulfilled stores leaderboard items', () => {
+  it('fetchLeaderboards fulfilled stores leaderboard items', () => {
     const items = [
       {
         score: 20,
@@ -49,7 +49,7 @@ describe('leaderboardsSlice', () => {
     });
   });
 
-  test('fetchLeaderboards rejected stores readable error', () => {
+  it('fetchLeaderboards rejected stores readable error', () => {
     const state = leaderboardsReducer(
       {
         error: null,

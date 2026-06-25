@@ -1,26 +1,26 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { VoteButton } from '@/components/votes/VoteButton';
 
 describe('VoteButton', () => {
-  test('renders score and active up state', () => {
+  it('renders score and active up state', () => {
     render(<VoteButton activeType={1} onVote={vi.fn()} score={7} />);
 
     expect(screen.getByText('7')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /vote suka/i })).toBeInTheDocument();
   });
 
-  test('disables buttons while loading', () => {
+  it('disables buttons while loading', () => {
     render(<VoteButton activeType={0} isLoading onVote={vi.fn()} score={0} />);
 
     expect(screen.getAllByRole('button')).toHaveLength(2);
     expect(screen.getAllByRole('button')[0]).toBeDisabled();
   });
 
-  test('calls onVote for up and down buttons', async () => {
+  it('calls onVote for up and down buttons', async () => {
     const user = userEvent.setup();
     const onVote = vi.fn();
 
@@ -33,7 +33,7 @@ describe('VoteButton', () => {
     expect(onVote).toHaveBeenNthCalledWith(2, -1);
   });
 
-  test('renders login link for guest', () => {
+  it('renders login link for guest', () => {
     render(
       <MemoryRouter>
         <VoteButton score={0} />

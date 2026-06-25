@@ -1,4 +1,4 @@
-import { describe, expect, test, vi, type MockedFunction } from 'vitest';
+import { describe, expect, it, vi, type MockedFunction } from 'vitest';
 
 import { createThread, getThreadDetail } from '@/services/forum/threadsApi';
 
@@ -7,7 +7,7 @@ vi.mock('@/services/apiClient', () => ({
 }));
 
 describe('threadsApi', () => {
-  test('getThreadDetail calls thread detail endpoint', async () => {
+  it('getThreadDetail calls thread detail endpoint', async () => {
     const { apiClient } = await import('@/services/apiClient');
     const mockedApiClient = apiClient as MockedFunction<typeof apiClient>;
     mockedApiClient.mockResolvedValueOnce({
@@ -20,7 +20,7 @@ describe('threadsApi', () => {
     expect(mockedApiClient).toHaveBeenCalledWith('/threads/thread-1');
   });
 
-  test('createThread calls create endpoint with payload', async () => {
+  it('createThread calls create endpoint with payload', async () => {
     const { apiClient } = await import('@/services/apiClient');
     const mockedApiClient = apiClient as MockedFunction<typeof apiClient>;
     mockedApiClient.mockResolvedValueOnce({

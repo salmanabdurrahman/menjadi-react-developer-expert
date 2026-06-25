@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import type { ThreadDetail } from '@/types/api';
 import {
@@ -56,7 +56,7 @@ const comment = {
 };
 
 describe('threadDetailSlice', () => {
-  test('clearThreadDetail resets active detail state', () => {
+  it('clearThreadDetail resets active detail state', () => {
     const state = threadDetailReducer(
       {
         commentError: 'Error komentar',
@@ -81,7 +81,7 @@ describe('threadDetailSlice', () => {
     });
   });
 
-  test('fetchThreadDetail fulfilled stores thread detail', () => {
+  it('fetchThreadDetail fulfilled stores thread detail', () => {
     const state = threadDetailReducer(
       undefined,
       fetchThreadDetail.fulfilled({ detail, threadId: 'thread-1' }, 'request-1', 'thread-1'),
@@ -91,7 +91,7 @@ describe('threadDetailSlice', () => {
     expect(state.status).toBe('succeeded');
   });
 
-  test('fetchThreadDetail rejected marks not found for 404 payload', () => {
+  it('fetchThreadDetail rejected marks not found for 404 payload', () => {
     const state = threadDetailReducer(
       undefined,
       fetchThreadDetail.rejected(null, 'request-1', 'thread-1', {
@@ -104,7 +104,7 @@ describe('threadDetailSlice', () => {
     expect(state.error).toBe('Thread tidak ditemukan');
   });
 
-  test('submitComment fulfilled appends comment to detail', () => {
+  it('submitComment fulfilled appends comment to detail', () => {
     const state = threadDetailReducer(
       {
         commentError: null,
@@ -125,7 +125,7 @@ describe('threadDetailSlice', () => {
     expect(state.commentStatus).toBe('succeeded');
   });
 
-  test('selectors read thread detail state', () => {
+  it('selectors read thread detail state', () => {
     const state = {
       auth: {
         authedUser: null,

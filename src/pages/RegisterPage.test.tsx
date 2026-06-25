@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { RegisterPage } from '@/pages/RegisterPage';
 
@@ -24,7 +24,7 @@ vi.mock('react-router-dom', async () => {
 });
 
 describe('RegisterPage', () => {
-  test('renders fields and login link', () => {
+  it('renders fields and login link', () => {
     render(
       <MemoryRouter>
         <RegisterPage />
@@ -37,7 +37,7 @@ describe('RegisterPage', () => {
     expect(screen.getByRole('link', { name: 'Masuk' })).toHaveAttribute('href', '/login');
   });
 
-  test('shows validation error on empty submit', async () => {
+  it('shows validation error on empty submit', async () => {
     const user = userEvent.setup();
 
     render(
@@ -53,7 +53,7 @@ describe('RegisterPage', () => {
     expect(screen.getByText('Password wajib diisi.')).toBeInTheDocument();
   });
 
-  test('shows min password validation error', async () => {
+  it('shows min password validation error', async () => {
     const user = userEvent.setup();
 
     render(

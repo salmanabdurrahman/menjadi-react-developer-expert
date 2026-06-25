@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { createComment } from '@/services/forum/commentsApi';
 
@@ -7,7 +7,7 @@ vi.mock('@/services/apiClient', () => ({
 }));
 
 describe('commentsApi', () => {
-  test('createComment calls comment endpoint with payload', async () => {
+  it('createComment calls comment endpoint with payload', async () => {
     const { apiClient } = await import('@/services/apiClient');
     vi.mocked(apiClient).mockResolvedValueOnce({
       message: 'ok',

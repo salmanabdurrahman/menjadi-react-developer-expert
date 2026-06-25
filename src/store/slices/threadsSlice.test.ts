@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import type { RootState } from '@/store';
 import type { Thread, User } from '@/types/api';
@@ -70,7 +70,7 @@ function createRootState(selectedCategory = 'all') {
 }
 
 describe('threadsSlice', () => {
-  test('fetchThreads fulfilled stores threads and users', () => {
+  it('fetchThreads fulfilled stores threads and users', () => {
     const state = threadsReducer(
       undefined,
       fetchThreads.fulfilled({ threads, users }, 'request-1'),
@@ -84,28 +84,28 @@ describe('threadsSlice', () => {
     });
   });
 
-  test('selectCategory updates selected category', () => {
+  it('selectCategory updates selected category', () => {
     const state = threadsReducer(undefined, selectCategory('React'));
 
     expect(state.selectedCategory).toBe('React');
   });
 
-  test('selectThreadsWithOwner merges owner by ownerId', () => {
+  it('selectThreadsWithOwner merges owner by ownerId', () => {
     const result = selectThreadsWithOwner(createRootState());
 
     expect(result[0]?.owner).toEqual(users[0]);
     expect(result[1]?.owner).toEqual(users[1]);
   });
 
-  test('selectCategories returns unique sorted categories', () => {
+  it('selectCategories returns unique sorted categories', () => {
     expect(selectCategories(createRootState())).toEqual(['React', 'Redux']);
   });
 
-  test('selectFilteredThreads returns all threads when category is all', () => {
+  it('selectFilteredThreads returns all threads when category is all', () => {
     expect(selectFilteredThreads(createRootState())).toHaveLength(2);
   });
 
-  test('selectFilteredThreads filters by selected category', () => {
+  it('selectFilteredThreads filters by selected category', () => {
     const result = selectFilteredThreads(createRootState('Redux'));
 
     expect(result).toHaveLength(1);

@@ -1,9 +1,9 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { router } from '@/router';
 
 describe('router', () => {
-  test('registers main app routes', () => {
+  it('registers main app routes', () => {
     const rootRoute = router.routes[0];
     const childPaths = rootRoute.children?.map((route) => route.path ?? 'index') ?? [];
 

@@ -1,4 +1,4 @@
-import { describe, expect, test, vi, type MockedFunction } from 'vitest';
+import { describe, expect, it, vi, type MockedFunction } from 'vitest';
 
 import { getLeaderboards } from '@/services/forum/leaderboardsApi';
 
@@ -7,7 +7,7 @@ vi.mock('@/services/apiClient', () => ({
 }));
 
 describe('leaderboardsApi', () => {
-  test('getLeaderboards calls leaderboard endpoint', async () => {
+  it('getLeaderboards calls leaderboard endpoint', async () => {
     const { apiClient } = await import('@/services/apiClient');
     const mockedApiClient = apiClient as MockedFunction<typeof apiClient>;
     mockedApiClient.mockResolvedValueOnce({

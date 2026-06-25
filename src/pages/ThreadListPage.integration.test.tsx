@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ThreadListPage } from '@/pages/ThreadListPage';
 
@@ -78,7 +78,7 @@ describe('ThreadListPage integration', () => {
     ];
   });
 
-  test('renders hero, filters, and thread list from store', () => {
+  it('renders hero, filters, and thread list from store', () => {
     render(
       <MemoryRouter>
         <ThreadListPage />
@@ -90,7 +90,7 @@ describe('ThreadListPage integration', () => {
     expect(screen.getByText('Belajar React')).toBeInTheDocument();
   });
 
-  test('renders empty state from store', () => {
+  it('renders empty state from store', () => {
     selectorState.filteredThreads = [];
     selectorState.threadsState = {
       error: null,

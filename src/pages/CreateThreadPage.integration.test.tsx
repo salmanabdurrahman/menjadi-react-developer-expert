@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
-import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { CreateThreadPage } from '@/pages/CreateThreadPage';
 
@@ -53,7 +53,7 @@ describe('CreateThreadPage integration', () => {
     mocks.showSuccessToast.mockReset();
   });
 
-  test('validates required fields', async () => {
+  it('validates required fields', async () => {
     const user = userEvent.setup();
 
     render(
@@ -68,7 +68,7 @@ describe('CreateThreadPage integration', () => {
     expect(screen.getByText('Isi thread wajib diisi.')).toBeInTheDocument();
   });
 
-  test('submits thread and navigates home', async () => {
+  it('submits thread and navigates home', async () => {
     const user = userEvent.setup();
     mocks.dispatch.mockReturnValue({
       unwrap: vi.fn().mockResolvedValue({ message: 'Thread berhasil dibuat' }),

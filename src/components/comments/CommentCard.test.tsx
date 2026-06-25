@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { CommentCard } from '@/components/comments/CommentCard';
 
@@ -46,7 +46,7 @@ const comment = {
 };
 
 describe('CommentCard', () => {
-  test('renders owner, content, and vote score', () => {
+  it('renders owner, content, and vote score', () => {
     render(
       <MemoryRouter>
         <CommentCard comment={comment} threadId="thread-1" />
@@ -58,7 +58,7 @@ describe('CommentCard', () => {
     expect(screen.getByRole('button', { name: 'Vote 0' })).toBeInTheDocument();
   });
 
-  test('calls vote API for authenticated user', async () => {
+  it('calls vote API for authenticated user', async () => {
     const user = userEvent.setup();
     voteApiMocks.upVoteComment.mockResolvedValueOnce({});
 

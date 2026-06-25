@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { LoginPage } from '@/pages/LoginPage';
 
@@ -24,7 +24,7 @@ vi.mock('react-router-dom', async () => {
 });
 
 describe('LoginPage', () => {
-  test('renders fields and login link', () => {
+  it('renders fields and login link', () => {
     render(
       <MemoryRouter>
         <LoginPage />
@@ -39,7 +39,7 @@ describe('LoginPage', () => {
     );
   });
 
-  test('shows validation error on empty submit', async () => {
+  it('shows validation error on empty submit', async () => {
     const user = userEvent.setup();
 
     render(

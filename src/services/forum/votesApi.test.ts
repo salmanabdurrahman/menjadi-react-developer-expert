@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import {
   downVoteComment,
@@ -14,7 +14,7 @@ vi.mock('@/services/apiClient', () => ({
 }));
 
 describe('votesApi', () => {
-  test('upVoteThread calls thread up-vote endpoint', async () => {
+  it('upVoteThread calls thread up-vote endpoint', async () => {
     const { apiClient } = await import('@/services/apiClient');
     vi.mocked(apiClient).mockResolvedValueOnce({
       message: 'ok',
@@ -28,7 +28,7 @@ describe('votesApi', () => {
     });
   });
 
-  test('downVoteThread calls thread down-vote endpoint', async () => {
+  it('downVoteThread calls thread down-vote endpoint', async () => {
     const { apiClient } = await import('@/services/apiClient');
     vi.mocked(apiClient).mockResolvedValueOnce({
       message: 'ok',
@@ -42,7 +42,7 @@ describe('votesApi', () => {
     });
   });
 
-  test('neutralVoteThread calls thread neutral-vote endpoint', async () => {
+  it('neutralVoteThread calls thread neutral-vote endpoint', async () => {
     const { apiClient } = await import('@/services/apiClient');
     vi.mocked(apiClient).mockResolvedValueOnce({
       message: 'ok',
@@ -56,7 +56,7 @@ describe('votesApi', () => {
     });
   });
 
-  test('upVoteComment calls comment up-vote endpoint', async () => {
+  it('upVoteComment calls comment up-vote endpoint', async () => {
     const { apiClient } = await import('@/services/apiClient');
     vi.mocked(apiClient).mockResolvedValueOnce({
       message: 'ok',
@@ -70,7 +70,7 @@ describe('votesApi', () => {
     });
   });
 
-  test('downVoteComment calls comment down-vote endpoint', async () => {
+  it('downVoteComment calls comment down-vote endpoint', async () => {
     const { apiClient } = await import('@/services/apiClient');
     vi.mocked(apiClient).mockResolvedValueOnce({
       message: 'ok',
@@ -84,7 +84,7 @@ describe('votesApi', () => {
     });
   });
 
-  test('neutralVoteComment calls comment neutral-vote endpoint', async () => {
+  it('neutralVoteComment calls comment neutral-vote endpoint', async () => {
     const { apiClient } = await import('@/services/apiClient');
     vi.mocked(apiClient).mockResolvedValueOnce({
       message: 'ok',

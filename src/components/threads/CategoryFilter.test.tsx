@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { CategoryFilter } from '@/components/threads/CategoryFilter';
 
 describe('CategoryFilter', () => {
-  test('renders all options', () => {
+  it('renders all options', () => {
     render(
       <CategoryFilter
         categories={['React', 'TypeScript']}
@@ -19,7 +19,7 @@ describe('CategoryFilter', () => {
     expect(screen.getByRole('button', { name: 'TypeScript' })).toBeInTheDocument();
   });
 
-  test('calls onSelect when option clicked', async () => {
+  it('calls onSelect when option clicked', async () => {
     const user = userEvent.setup();
     const onSelect = vi.fn();
 
@@ -30,13 +30,13 @@ describe('CategoryFilter', () => {
     expect(onSelect).toHaveBeenCalledWith('React');
   });
 
-  test('marks selected option with pressed state', () => {
+  it('marks selected option with pressed state', () => {
     render(<CategoryFilter categories={['React']} onSelect={vi.fn()} selectedCategory="React" />);
 
     expect(screen.getByRole('button', { name: 'React' })).toHaveAttribute('aria-pressed', 'true');
   });
 
-  test('renders empty badge when no categories', () => {
+  it('renders empty badge when no categories', () => {
     render(<CategoryFilter categories={[]} onSelect={vi.fn()} selectedCategory="all" />);
 
     expect(screen.getByText('Tidak ada kategori')).toBeInTheDocument();

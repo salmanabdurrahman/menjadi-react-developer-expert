@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { CommentForm } from '@/components/comments/CommentForm';
 
 describe('CommentForm', () => {
-  test('shows validation error on empty submit', async () => {
+  it('shows validation error on empty submit', async () => {
     const user = userEvent.setup();
 
     render(<CommentForm onSubmit={vi.fn()} />);
@@ -15,7 +15,7 @@ describe('CommentForm', () => {
     expect(screen.getByText('Komentar wajib diisi.')).toBeInTheDocument();
   });
 
-  test('submits trimmed content and clears field', async () => {
+  it('submits trimmed content and clears field', async () => {
     const user = userEvent.setup();
     const onSubmit = vi.fn().mockResolvedValue(undefined);
 

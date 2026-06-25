@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import type { ThreadWithOwner } from '@/store/slices/threadsSlice';
 import { ThreadCard } from '@/components/threads/ThreadCard';
@@ -47,7 +47,7 @@ const thread: ThreadWithOwner = {
 };
 
 describe('ThreadCard', () => {
-  test('renders title link, category, owner, and comment count', () => {
+  it('renders title link, category, owner, and comment count', () => {
     render(
       <MemoryRouter>
         <ThreadCard thread={thread} />
@@ -63,7 +63,7 @@ describe('ThreadCard', () => {
     expect(screen.getByText('1 komentar')).toBeInTheDocument();
   });
 
-  test('renders singular comment text when count is one', () => {
+  it('renders singular comment text when count is one', () => {
     render(
       <MemoryRouter>
         <ThreadCard thread={thread} />
@@ -73,7 +73,7 @@ describe('ThreadCard', () => {
     expect(screen.getByText('1 komentar')).toBeInTheDocument();
   });
 
-  test('renders truncated body summary', () => {
+  it('renders truncated body summary', () => {
     render(
       <MemoryRouter>
         <ThreadCard thread={thread} />

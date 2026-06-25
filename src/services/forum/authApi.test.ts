@@ -1,4 +1,4 @@
-import { describe, expect, test, vi, type MockedFunction } from 'vitest';
+import { describe, expect, it, vi, type MockedFunction } from 'vitest';
 
 import { getAuthedUser, loginUser, registerUser } from '@/services/forum/authApi';
 
@@ -7,7 +7,7 @@ vi.mock('@/services/apiClient', () => ({
 }));
 
 describe('authApi', () => {
-  test('registerUser calls register endpoint with payload', async () => {
+  it('registerUser calls register endpoint with payload', async () => {
     const { apiClient } = await import('@/services/apiClient');
     const mockedApiClient = apiClient as MockedFunction<typeof apiClient>;
     mockedApiClient.mockResolvedValueOnce({ message: 'ok', user: {} } as never);
@@ -28,7 +28,7 @@ describe('authApi', () => {
     });
   });
 
-  test('loginUser calls login endpoint with payload', async () => {
+  it('loginUser calls login endpoint with payload', async () => {
     const { apiClient } = await import('@/services/apiClient');
     const mockedApiClient = apiClient as MockedFunction<typeof apiClient>;
     mockedApiClient.mockResolvedValueOnce({
@@ -50,7 +50,7 @@ describe('authApi', () => {
     });
   });
 
-  test('getAuthedUser calls current user endpoint', async () => {
+  it('getAuthedUser calls current user endpoint', async () => {
     const { apiClient } = await import('@/services/apiClient');
     const mockedApiClient = apiClient as MockedFunction<typeof apiClient>;
     mockedApiClient.mockResolvedValueOnce({ message: 'ok', user: {} } as never);

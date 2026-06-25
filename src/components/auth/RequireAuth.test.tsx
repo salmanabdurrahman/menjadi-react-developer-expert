@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
-import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { RequireAuth } from '@/components/auth/RequireAuth';
 
@@ -51,13 +51,13 @@ describe('RequireAuth', () => {
     };
   });
 
-  test('redirects guest to login page', () => {
+  it('redirects guest to login page', () => {
     renderProtectedRoute();
 
     expect(screen.getByText('Halaman masuk /threads/new?draft=true')).toBeInTheDocument();
   });
 
-  test('waits while stored token session is being restored', () => {
+  it('waits while stored token session is being restored', () => {
     authState = {
       authedUser: null,
       status: 'idle',
@@ -69,7 +69,7 @@ describe('RequireAuth', () => {
     expect(screen.getByText('Memeriksa sesi…')).toBeInTheDocument();
   });
 
-  test('redirects invalid stored token to login page', () => {
+  it('redirects invalid stored token to login page', () => {
     authState = {
       authedUser: null,
       status: 'failed',
@@ -81,7 +81,7 @@ describe('RequireAuth', () => {
     expect(screen.getByText('Halaman masuk /threads/new?draft=true')).toBeInTheDocument();
   });
 
-  test('renders protected content when session is valid', () => {
+  it('renders protected content when session is valid', () => {
     authState = {
       authedUser,
       status: 'succeeded',
