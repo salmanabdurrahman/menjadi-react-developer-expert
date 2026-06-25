@@ -43,15 +43,21 @@ Kode disusun modular per fitur agar mudah dirawat, diuji, dan dikembangkan. Stat
 
 ```text
 src/
-├── app/                 # store, router, protected route, halaman aplikasi
-│   └── pages/           # halaman: thread list, detail, create, auth, leaderboard
-├── components/          # komponen layout dan UI reusable
-│   ├── layout/
-│   └── ui/
+├── components/          # komponen React dikelompokkan berdasarkan fungsi UI
+│   ├── auth/            # route guard dan komponen autentikasi reusable
+│   ├── comments/        # komponen komentar
+│   ├── threads/         # komponen thread
+│   ├── ui/              # primitive UI reusable
+│   └── votes/           # komponen voting
 ├── config/              # konfigurasi environment
-├── features/            # domain feature: auth, threads, comments, votes, leaderboards
 ├── hooks/               # typed Redux hooks
-├── services/            # API client dan token storage
+├── layouts/             # layout aplikasi: header, footer, shell halaman
+├── pages/               # halaman route: thread list, detail, create, auth, leaderboard
+├── router.tsx           # definisi routing React Router
+├── services/            # API client, token storage, dan wrapper HTTP forum
+│   └── forum/           # fungsi API Dicoding Forum per resource
+├── store/               # konfigurasi Redux store dan slice state
+│   └── slices/          # auth, threads, detail thread, leaderboard
 ├── styles/              # global CSS
 ├── test/                # setup test
 ├── types/               # tipe API dan domain
@@ -62,9 +68,10 @@ src/
 
 - `src/services/apiClient.ts` menjadi pintu utama komunikasi HTTP ke Dicoding Forum API.
 - `src/services/tokenStorage.ts` mengelola token autentikasi di storage lokal.
-- `src/features/*` berisi API wrapper, Redux slice, thunk, komponen domain, dan test per fitur.
-- `src/app/router.tsx` mendefinisikan route aplikasi.
-- `src/app/RequireAuth.tsx` menjaga halaman protected.
+- Struktur memakai pendekatan function-based/layered: komponen di `src/components`, request API di `src/services/forum`, state di `src/store/slices`, halaman di `src/pages`.
+- `src/router.tsx` mendefinisikan route aplikasi.
+- `src/components/auth/RequireAuth.tsx` menjaga halaman protected.
+- `src/layouts` memuat layout aplikasi yang dipakai banyak halaman.
 - `src/components/ui` menyediakan komponen UI reusable seperti button, card, input, textarea, badge, avatar, loading, empty, dan error state.
 - `src/utils` menyimpan helper murni yang mudah diuji.
 
@@ -158,7 +165,7 @@ bun run format
 Test mencakup:
 
 - API client dan token storage.
-- Redux slice dan thunk fitur.
+- Redux slice dan thunk di `store/slices`.
 - Komponen UI reusable.
 - Komponen domain seperti thread card, comment card, form, vote button, dan category filter.
 - Router dan protected route.
@@ -172,7 +179,7 @@ bun run test
 
 ## Catatan Pengembangan
 
-- Pertahankan akses network di layer `services` dan `features/*Api.ts`.
+- Pertahankan akses network di layer `services`, terutama `services/forum/*Api.ts`.
 - Komponen halaman sebaiknya mengelola state UI/form lokal saja.
 - Logic transformasi data lebih baik ditempatkan di slice, thunk, util, atau selector-like helper.
 - Tambahkan test saat menambah perilaku baru, terutama untuk alur async, route protected, dan voting.
