@@ -1,0 +1,58 @@
+{
+  "user": {
+    "id": "user-e2e",
+    "name": "Pengguna E2E",
+    "email": "e2e@example.test",
+    "avatar": "https://ui-avatars.com/api/?name=Pengguna+E2E"
+  },
+  "otherUser": {
+    "id": "user-other",
+    "name": "Siti Diskusi",
+    "email": "siti@example.test",
+    "avatar": "https://ui-avatars.com/api/?name=Siti+Diskusi"
+  },
+  "thread": {
+    "id": "thread-e2e-1",
+    "title": "Thread E2E React",
+    "body": "<p>Konten thread untuk pengujian end-to-end.</p>",
+    "category": "react",
+    "createdAt": "2026-06-20T08:00:00.000Z",
+    "ownerId": "user-other",
+    "upVotesBy": [],
+    "downVotesBy": [],
+    "totalComments": 1
+  },
+  "comment": {
+    "id": "comment-e2e-1",
+    "content": "<p>Komentar awal untuk E2E.</p>",
+    "createdAt": "2026-06-20T09:00:00.000Z",
+    "owner": {
+      "id": "user-other",
+      "name": "Siti Diskusi",
+      "email": "siti@example.test",
+      "avatar": "https://ui-avatars.com/api/?name=Siti+Diskusi"
+    },
+    "upVotesBy": [],
+    "downVotesBy": []
+  },
+  "leaderboards": [
+    {
+      "user": {
+        "id": "user-e2e",
+        "name": "Pengguna E2E",
+        "email": "e2e@example.test",
+        "avatar": "https://ui-avatars.com/api/?name=Pengguna+E2E"
+      },
+      "score": 120
+    },
+    {
+      "user": {
+        "id": "user-other",
+        "name": "Siti Diskusi",
+        "email": "siti@example.test",
+        "avatar": "https://ui-avatars.com/api/?name=Siti+Diskusi"
+      },
+      "score": 95
+    }
+  ]
+}

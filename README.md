@@ -2,7 +2,7 @@
 
 Aplikasi forum diskusi modern berbasis **React + TypeScript** yang memakai **Dicoding Forum API**. Project ini dibuat sebagai implementasi frontend untuk alur forum end-to-end: autentikasi, daftar thread, detail diskusi, komentar, voting, leaderboard, route protection, dan quality assurance dengan unit/integration test.
 
-Live demo tersedia di: https://menjadi-react-developer-expert.netlify.app/
+Live demo tersedia di: https://menjadi-react-developer-expert.vercel.app
 
 ## Ringkasan Project
 
@@ -36,6 +36,7 @@ Kode disusun modular per fitur agar mudah dirawat, diuji, dan dikembangkan. Stat
 - **Base UI, shadcn utilities, CVA, clsx, tailwind-merge** — fondasi komponen UI.
 - **Sonner** — toast notification.
 - **Vitest + React Testing Library** — unit dan integration testing.
+- **Cypress** — end-to-end testing headless untuk alur utama aplikasi.
 - **ESLint + Prettier** — linting dan format code.
 - **Bun** — package manager dan runner script.
 
@@ -137,6 +138,7 @@ bun run preview
 bun run lint
 bun run test
 bun run test:coverage
+npm run e2e
 bun run format:check
 ```
 
@@ -157,12 +159,24 @@ bun run format
 | `bun run test`          | Menjalankan test sekali.             |
 | `bun run test:watch`    | Menjalankan test watch mode.         |
 | `bun run test:coverage` | Menjalankan test dengan coverage.    |
+| `npm run e2e`           | Menjalankan Cypress headless.        |
 | `bun run format`        | Format seluruh file dengan Prettier. |
 | `bun run format:check`  | Cek format tanpa mengubah file.      |
 
+## React Ecosystem Library
+
+Project memakai **Sonner** sebagai library React Ecosystem yang valid untuk toast notification. Sonner dipilih karena kecil, fokus ke feedback UI, dan tidak termasuk daftar library yang dikecualikan pada `BRIEF_V2.md`.
+
+Lokasi penggunaan:
+
+- `src/main.tsx` memasang `<Toaster />` di root aplikasi.
+- `src/utils/toast.ts` membungkus `toast.success()` dan `toast.error()` agar pesan tetap konsisten dalam bahasa Indonesia.
+- Halaman/form dan komponen voting memanggil helper toast untuk feedback sukses/gagal.
+- `src/utils/__tests__/toast.test.ts` memverifikasi integrasi helper toast dengan Sonner.
+
 ## Testing
 
-Test mencakup:
+Test otomatis mencakup:
 
 - API client dan token storage.
 - Redux slice dan thunk di `store/slices`.
@@ -170,12 +184,41 @@ Test mencakup:
 - Komponen domain seperti thread card, comment card, form, vote button, dan category filter.
 - Router dan protected route.
 - Integration test halaman utama seperti thread list, detail thread, create thread, login/register, dan leaderboard.
+- Cypress E2E untuk login, route guard, create thread, create comment, voting, filter kategori, leaderboard, dan responsive smoke.
 
-Jalankan semua test:
+Jalankan unit/integration/component test:
 
 ```bash
 bun run test
 ```
+
+Jalankan E2E headless:
+
+```bash
+npm run e2e
+```
+
+Cypress memakai fixture lokal di `cypress/fixtures/forum.json` dan intercept API di `cypress/support/forumApi.ts`, sehingga tidak membutuhkan credential nyata atau network API eksternal.
+
+## CI/CD dan Deployment
+
+GitHub Actions workflow tersedia di `.github/workflows/ci.yml` dan berjalan otomatis pada push serta pull request ke branch `main`. Pipeline memakai Bun sesuai `bun.lock`, install dependency secara deterministic dengan `bun install --frozen-lockfile`, lalu menjalankan:
+
+- TypeScript type check.
+- Prettier format check.
+- ESLint.
+- `npm test` untuk memastikan command wajib reviewer berjalan.
+- Coverage test.
+- Cypress headless via `npm run e2e`.
+- Production build.
+
+Deployment production ditargetkan ke **Vercel**. Konfigurasi Vercel tersedia di `vercel.json` dengan build command `bun run build` dan output directory `dist`.
+
+Bukti submission disimpan di folder `screenshots/`:
+
+- `1_ci_check_error.png` — bukti CI gagal.
+- `2_ci_check_pass.png` — bukti CI sukses.
+- `3_branch_protection.png` — bukti branch protection aktif.
 
 ## Catatan Pengembangan
 
