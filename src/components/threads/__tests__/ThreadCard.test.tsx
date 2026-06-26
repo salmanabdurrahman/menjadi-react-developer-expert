@@ -1,9 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { ThreadWithOwner } from '@/store/slices/threadsSlice';
 import { ThreadCard } from '@/components/threads/ThreadCard';
+import { downVoteThread, neutralVoteThread, upVoteThread } from '@/services/forum/votesApi';
 
 interface MockVoteButtonProps {
   activeType?: number;
@@ -13,19 +14,28 @@ interface MockVoteButtonProps {
 
 vi.mock('@/components/votes', () => ({
   VoteButton: ({ activeType, onVote, score }: MockVoteButtonProps) => (
-    <button
-      aria-label={`vote-${activeType}`}
-      onClick={() => {
-        void onVote?.(1);
-      }}
-      type="button"
-    >
-      {score}
-    </button>
+    <div>
+      <span data-testid="vote-state">{activeType ?? 0}</span>
+      <span data-testid="vote-score">{score}</span>
+      <button onClick={() => void onVote?.(1)} type="button">
+        up
+      </button>
+      <button onClick={() => void onVote?.(-1)} type="button">
+        down
+      </button>
+    </div>
   ),
+}));
+
+vi.mock('@/services/forum/votesApi', () => ({
   downVoteThread: vi.fn(),
   neutralVoteThread: vi.fn(),
   upVoteThread: vi.fn(),
+}));
+
+vi.mock('@/utils/toast', () => ({
+  showErrorToast: vi.fn(),
+  showSuccessToast: vi.fn(),
 }));
 
 const thread: ThreadWithOwner = {
@@ -47,6 +57,10 @@ const thread: ThreadWithOwner = {
 };
 
 describe('ThreadCard', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('renders title link, category, owner, and comment count', () => {
     render(
       <MemoryRouter>
@@ -81,5 +95,57 @@ describe('ThreadCard', () => {
     );
 
     expect(screen.getByText(/Halo dunia.*…/)).toBeInTheDocument();
+  });
+
+  it('uses fallback owner info when owner is missing', () => {
+    render(
+      <MemoryRouter>
+        <ThreadCard thread={{ ...thread, owner: null }} />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByText('Pengguna tidak dikenal')).toBeInTheDocument();
+  });
+
+  it('calls up vote api and updates optimistic score', async () => {
+    vi.mocked(upVoteThread).mockResolvedValueOnce({ message: 'ok', voteType: 1 });
+
+    render(
+      <MemoryRouter>
+        <ThreadCard authedUserId="u1" thread={thread} />
+      </MemoryRouter>,
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'up' }));
+
+    await waitFor(() => expect(upVoteThread).toHaveBeenCalledWith('thread-1'));
+    expect(screen.getByTestId('vote-score')).toHaveTextContent('1');
+  });
+
+  it('neutralizes existing down vote when active down button clicked', async () => {
+    vi.mocked(neutralVoteThread).mockResolvedValueOnce({ message: 'netral', voteType: 0 });
+
+    render(
+      <MemoryRouter>
+        <ThreadCard authedUserId="u1" thread={{ ...thread, downVotesBy: ['u1'] }} />
+      </MemoryRouter>,
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'down' }));
+
+    await waitFor(() => expect(neutralVoteThread).toHaveBeenCalledWith('thread-1'));
+    expect(screen.getByTestId('vote-state')).toHaveTextContent('0');
+  });
+
+  it('shows vote error when down vote request fails', async () => {
+    vi.mocked(downVoteThread).mockRejectedValueOnce(new Error('Network error'));
+
+    render(
+      <MemoryRouter>
+        <ThreadCard authedUserId="u1" thread={thread} />
+      </MemoryRouter>,
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'down' }));
+
+    await waitFor(() => expect(downVoteThread).toHaveBeenCalledWith('thread-1'));
+    expect(screen.getByText('Vote thread gagal diproses.')).toBeInTheDocument();
   });
 });

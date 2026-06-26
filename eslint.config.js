@@ -27,7 +27,7 @@ export default defineConfig([
     languageOptions: {
       globals: globals.browser,
       parserOptions: {
-        project: ['./tsconfig.app.json', './tsconfig.node.json'],
+        project: ['./tsconfig.app.json', './tsconfig.node.json', './tsconfig.cypress.json'],
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -101,10 +101,22 @@ export default defineConfig([
       '**/*.{test,spec}.{ts,tsx}',
       '**/*.integration.test.{ts,tsx}',
       'src/test/**/*.{ts,tsx}',
+      'cypress/**/*.{ts,tsx}',
+      'cypress.config.ts',
     ],
     rules: {
       'import/no-extraneous-dependencies': 'off',
       'no-script-url': 'off',
+    },
+  },
+  {
+    files: ['cypress/**/*.{ts,tsx}'],
+    languageOptions: {
+      globals: globals.mocha,
+    },
+    rules: {
+      '@typescript-eslint/no-namespace': 'off',
+      'no-undef': 'off',
     },
   },
   prettierConfig,
